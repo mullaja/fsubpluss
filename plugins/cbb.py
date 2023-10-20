@@ -1,9 +1,6 @@
-# (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
+#CodeXBotz #mrismanaziz
 
 from bot import Bot
-from config import OWNER
 from Data import Data
 from pyrogram import filters
 from pyrogram.errors import MessageNotModified
@@ -14,7 +11,7 @@ from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 async def _about(client: Bot, msg: Message):
     await client.send_message(
         msg.chat.id,
-        Data.ABOUT.format(client.username, OWNER),
+        Data.ABOUT.format(client.username),
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(Data.mbuttons),
     )
@@ -23,8 +20,8 @@ async def _about(client: Bot, msg: Message):
 @Bot.on_message(filters.private & filters.incoming & filters.command("help"))
 async def _help(client: Bot, msg: Message):
     await client.send_message(
-        msg.chat.id,
-        "<b>Cara Menggunakan Bot ini</b>\n" + Data.HELP,
+        msg.chat.id, 
+        Data.HELP,
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(Data.buttons),
     )
@@ -36,7 +33,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
     if data == "about":
         try:
             await query.message.edit_text(
-                text=Data.ABOUT.format(client.username, OWNER),
+                text=Data.ABOUT.format(client.username),
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(Data.mbuttons),
             )
@@ -45,7 +42,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
     elif data == "help":
         try:
             await query.message.edit_text(
-                text="<b>Cara Menggunakan Bot ini</b>\n" + Data.HELP,
+                text=Data.HELP,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(Data.buttons),
             )

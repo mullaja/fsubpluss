@@ -1,6 +1,4 @@
-# Credits: @mrismanaziz
-# FROM File-Sharing-Man <https://github.com/mrismanaziz/File-Sharing-Man/>
-# t.me/SharingUserbot & t.me/Lunatic0de
+#CodeXBotz #mrismanaziz
 
 import os
 
@@ -8,19 +6,18 @@ from bot import Bot
 from config import (
     ADMINS,
     API_HASH,
-    APP_ID,
-    CHANNEL_ID,
-    DB_URI,
-    FORCE_MSG,
-    FORCE_SUB_CHANNEL,
-    FORCE_SUB_GROUP,
-    HEROKU_API_KEY,
-    HEROKU_APP_NAME,
+    API_ID,
+    CHANNEL_DB,
+    DATABASE_URL,
+    FORCE_MESSAGE,
+    FORCE_SUB_1,
+    FORCE_SUB_2,
+    FORCE_SUB_3,
+    FORCE_SUB_4,
     LOGGER,
-    OWNER,
-    PROTECT_CONTENT,
-    START_MSG,
-    TG_BOT_TOKEN,
+    RESTRICT,
+    START_MESSAGE,
+    BOT_TOKEN,
 )
 from pyrogram import filters
 from pyrogram.types import Message
@@ -34,36 +31,33 @@ async def get_bot_logs(client: Bot, m: Message):
             await m.reply_document(
                 bot_log_path,
                 quote=True,
-                caption="<b>Ini Logs Bot ini</b>",
             )
         except Exception as e:
             os.remove(bot_log_path)
             LOGGER(__name__).warning(e)
     elif not os.path.exists(bot_log_path):
-        await m.reply_text("❌ <b>Tidak ada log yang ditemukan!</b>")
+        await m.reply_text("Tidak ada logs yang ditemukan!")
 
 
 @Bot.on_message(filters.command("vars") & filters.user(ADMINS))
 async def varsFunc(client: Bot, message: Message):
     Man = await message.reply_text("Tunggu Sebentar...")
-    text = f"""<u><b>CONFIG VARS</b></u> @{client.username}
-APP_ID = <code>{APP_ID}</code>
-API_HASH = <code>{API_HASH}</code>
-TG_BOT_TOKEN = <code>{TG_BOT_TOKEN}</code>
-DATABASE_URL = <code>{DB_URI}</code>
-OWNER = <code>{OWNER}</code>
+    text = f"""
+<b>MANDATORY VARS</b>
 ADMINS = <code>{ADMINS}</code>
+API_ID = <code>{API_ID}</code>
+API_HASH = <code>{API_HASH}</code>
+BOT_TOKEN = <code>{BOT_TOKEN}</code>
+CHANNEL_DB = <code>{CHANNEL_DB}</code>
+DATABASE_URL = <code>{DATABASE_URL}</code>
     
-<u><b>CUSTOM VARS</b></u>
-CHANNEL_ID = <code>{CHANNEL_ID}</code>
-FORCE_SUB_CHANNEL = <code>{FORCE_SUB_CHANNEL}</code>
-FORCE_SUB_GROUP = <code>{FORCE_SUB_GROUP}</code>
-PROTECT_CONTENT = <code>{PROTECT_CONTENT}</code>
-START_MSG = <code>{START_MSG}</code>
-FORCE_MSG = <code>{FORCE_MSG}</code>
-
-<u><b>HEROKU CONFIGVARS</b></u>
-HEROKU_APP_NAME = <code>{HEROKU_APP_NAME}</code>
-HEROKU_API_KEY = <code>{HEROKU_API_KEY}</code>
-    """
+<b>OPTIONAL VARS</b>
+RESTRICT = <code>{RESTRICT}</code>
+FORCE_SUB_1 = <code>{FORCE_SUB_1}</code>
+FORCE_SUB_2 = <code>{FORCE_SUB_2}</code>
+FORCE_SUB_3 = <code>{FORCE_SUB_3}</code>
+FORCE_SUB_4 = <code>{FORCE_SUB_4}</code>
+START_MESSAGE = <code>{START_MESSAGE}</code>
+FORCE_MESSAGE = <code>{FORCE_MESSAGE}</code>
+"""
     await Man.edit_text(text)

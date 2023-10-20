@@ -1,6 +1,4 @@
-# (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
+# Codexbotz #mrismanaziz
 
 import asyncio
 
@@ -9,7 +7,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from bot import Bot
-from config import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON, LOGGER
+from config import ADMINS, CHANNEL_DB, DISABLE_BUTTON, LOGGER
 from helper_func import encode
 
 
@@ -26,19 +24,14 @@ from helper_func import encode
             "batch",
             "logs",
             "genlink",
-            "delvar",
-            "getvar",
-            "setvar",
-            "speedtest",
             "update",
             "stats",
             "vars",
-            "id",
         ]
     )
 )
 async def channel_post(client: Client, message: Message):
-    reply_text = await message.reply_text("<code>Tunggu Sebentar...</code>", quote=True)
+    reply_text = await message.reply_text("Sedang diproses...", quote=True)
     try:
         post_message = await message.copy(
             chat_id=client.db_channel.id, disable_notification=True
@@ -50,7 +43,7 @@ async def channel_post(client: Client, message: Message):
         )
     except Exception as e:
         LOGGER(__name__).warning(e)
-        await reply_text.edit_text("<b>Telah Terjadi Error...</b>")
+        await reply_text.edit_text("Error!")
         return
     converted_id = post_message.id * abs(client.db_channel.id)
     string = f"get-{converted_id}"
@@ -61,29 +54,29 @@ async def channel_post(client: Client, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "🔁 Share Link", url=f"https://telegram.me/share/url?url={link}"
+                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]
     )
 
     await reply_text.edit(
-        f"<b>Link Sharing File Berhasil Di Buat :</b>\n\n{link}",
+        f"Link: {link}",
         reply_markup=reply_markup,
         disable_web_page_preview=True,
     )
 
-    if not DISABLE_CHANNEL_BUTTON:
+    if not DISABLE_BUTTON:
         try:
             await post_message.edit_reply_markup(reply_markup)
         except Exception:
             pass
 
 
-@Bot.on_message(filters.channel & filters.incoming & filters.chat(CHANNEL_ID))
+@Bot.on_message(filters.channel & filters.incoming & filters.chat(CHANNEL_DB))
 async def new_post(client: Client, message: Message):
 
-    if DISABLE_CHANNEL_BUTTON:
+    if DISABLE_BUTTON:
         return
 
     converted_id = message.id * abs(client.db_channel.id)
@@ -94,7 +87,7 @@ async def new_post(client: Client, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "🔁 Share Link", url=f"https://telegram.me/share/url?url={link}"
+                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]

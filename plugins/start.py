@@ -1,6 +1,4 @@
-# (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
+#CodeXBotz #mrismanaziz
 
 import asyncio
 from datetime import datetime
@@ -10,10 +8,10 @@ from bot import Bot
 from config import (
     ADMINS,
     CUSTOM_CAPTION,
-    DISABLE_CHANNEL_BUTTON,
-    FORCE_MSG,
-    PROTECT_CONTENT,
-    START_MSG,
+    DISABLE_BUTTON,
+    FORCE_MESSAGE,
+    RESTRICT,
+    START_MESSAGE,
 )
 from database.sql import add_user, delete_user, full_userbase, query_msg
 from pyrogram import filters
@@ -21,7 +19,15 @@ from pyrogram.enums import ParseMode
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked
 from pyrogram.types import InlineKeyboardMarkup, Message
 
-from helper_func import decode, get_messages, subsall, subsch, subsgc
+from helper_func import(
+    decode,
+    get_messages, 
+    subs,
+    sub1,
+    sub2,
+    sub3,
+    sub4
+)
 
 from .button import fsub_button, start_button
 
@@ -47,7 +53,7 @@ async def _human_time_duration(seconds):
     return ", ".join(parts)
 
 
-@Bot.on_message(filters.command("start") & filters.private & subsall & subsch & subsgc)
+@Bot.on_message(filters.command("start") & filters.private & subs & sub1 & sub2 & sub3 & sub4)
 async def start_command(client: Bot, message: Message):
     id = message.from_user.id
     user_name = (
@@ -89,11 +95,11 @@ async def start_command(client: Bot, message: Message):
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
             except BaseException:
                 return
-        temp_msg = await message.reply("<code>Tunggu Sebentar...</code>")
+        temp_msg = await message.reply("Sedang diproses...")
         try:
             messages = await get_messages(client, ids)
         except BaseException:
-            await message.reply_text("<b>Telah Terjadi Error </b>🥺")
+            await message.reply_text("Error!")
             return
         await temp_msg.delete()
 
@@ -108,13 +114,13 @@ async def start_command(client: Bot, message: Message):
             else:
                 caption = msg.caption.html if msg.caption else ""
 
-            reply_markup = msg.reply_markup if DISABLE_CHANNEL_BUTTON else None
+            reply_markup = msg.reply_markup if DISABLE_BUTTON else None
             try:
                 await msg.copy(
                     chat_id=message.from_user.id,
                     caption=caption,
                     parse_mode=ParseMode.HTML,
-                    protect_content=PROTECT_CONTENT,
+                    protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
                 await asyncio.sleep(0.5)
@@ -124,28 +130,27 @@ async def start_command(client: Bot, message: Message):
                     chat_id=message.from_user.id,
                     caption=caption,
                     parse_mode=ParseMode.HTML,
-                    protect_content=PROTECT_CONTENT,
+                    protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
             except BaseException:
                 pass
     else:
-        out = start_button(client)
+        buttons = start_button(client)
         await message.reply_text(
-            text=START_MSG.format(
+            text=START_MESSAGE.format(
                 first=message.from_user.first_name,
                 last=message.from_user.last_name,
-                username=f"@{message.from_user.username}"
-                if message.from_user.username
-                else None,
+                username=None 
+                if not message.from_user.username
+                else "@" + message.from_user.username,
                 mention=message.from_user.mention,
                 id=message.from_user.id,
             ),
-            reply_markup=InlineKeyboardMarkup(out),
+            reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
             quote=True,
         )
-
 
     return
 
@@ -154,7 +159,7 @@ async def start_command(client: Bot, message: Message):
 async def not_joined(client: Bot, message: Message):
     buttons = fsub_button(client, message)
     await message.reply(
-        text=FORCE_MSG.format(
+        text=FORCE_MESSAGE.format(
             first=message.from_user.first_name,
             last=message.from_user.last_name,
             username=f"@{message.from_user.username}"
@@ -172,10 +177,10 @@ async def not_joined(client: Bot, message: Message):
 @Bot.on_message(filters.command(["users", "stats"]) & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(
-        chat_id=message.chat.id, text="<code>Processing ...</code>"
+        chat_id=message.chat.id, text="Sedang diproses..."
     )
     users = await full_userbase()
-    await msg.edit(f"{len(users)} <b>Pengguna menggunakan bot ini</b>")
+    await msg.edit(f"{len(users)} Pengguna")
 
 
 @Bot.on_message(filters.command("broadcast") & filters.user(ADMINS))
@@ -190,17 +195,17 @@ async def send_text(client: Bot, message: Message):
         unsuccessful = 0
 
         pls_wait = await message.reply(
-            "<code>Broadcasting Message Tunggu Sebentar...</code>"
+            "Mengirim pesan siaran..."
         )
         for row in query:
             chat_id = int(row[0])
             if chat_id not in ADMINS:
                 try:
-                    await broadcast_msg.copy(chat_id, protect_content=PROTECT_CONTENT)
+                    await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
                 except FloodWait as e:
                     await asyncio.sleep(e.x)
-                    await broadcast_msg.copy(chat_id, protect_content=PROTECT_CONTENT)
+                    await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
                 except UserIsBlocked:
                     await delete_user(chat_id)
@@ -211,33 +216,29 @@ async def send_text(client: Bot, message: Message):
                 except BaseException:
                     unsuccessful += 1
                 total += 1
-        status = f"""<b><u>Berhasil Broadcast</u>
-Jumlah Pengguna: <code>{total}</code>
-Berhasil: <code>{successful}</code>
-Gagal: <code>{unsuccessful}</code>
-Pengguna diblokir: <code>{blocked}</code>
-Akun Terhapus: <code>{deleted}</code></b>"""
+        status = f"""
+Berhasil!
+Pengguna: {total}
+Berhasil: {successful}
+Gagal: {unsuccessful}
+Diblokir: {blocked}
+Akun Terhapus: {deleted}"""
         return await pls_wait.edit(status)
     else:
         msg = await message.reply(
-            "<code>Gunakan Perintah ini Harus Sambil Reply ke pesan telegram yang ingin di Broadcast.</code>"
+            "Balas ke pesan!"
         )
-        await asyncio.sleep(8)
+        await asyncio.sleep(5)
         await msg.delete()
 
 
 @Bot.on_message(filters.command("ping"))
 async def ping_pong(client, m: Message):
     start = time()
-    current_time = datetime.utcnow()
-    uptime_sec = (current_time - START_TIME).total_seconds()
-    uptime = await _human_time_duration(int(uptime_sec))
-    m_reply = await m.reply_text("Pinging...")
+    m_reply = await m.reply_text("...")
     delta_ping = time() - start
     await m_reply.edit_text(
-        "<b>PONG!!</b>🏓 \n"
-        f"<b>• Pinger -</b> <code>{delta_ping * 1000:.3f}ms</code>\n"
-        f"<b>• Uptime -</b> <code>{uptime}</code>\n"
+        f"Hasil: {delta_ping * 1000:.3f}ms"
     )
 
 
@@ -247,7 +248,6 @@ async def get_uptime(client, m: Message):
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
     await m.reply_text(
-        "🤖 <b>Bot Status:</b>\n"
-        f"• <b>Uptime:</b> <code>{uptime}</code>\n"
-        f"• <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
+        f"Waktu Aktif: {uptime}\n"
+        f"Sejak: {START_TIME_ISO}"
     )

@@ -7,7 +7,7 @@ from distutils.util import strtobool
 from dotenv import load_dotenv
 from logging.handlers import RotatingFileHandler
 
-load_dotenv()
+load_dotenv("config.env")
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
@@ -20,10 +20,19 @@ DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
 
 RESTRICT = strtobool(os.environ.get("RESTRICT", "True"))
 
-FORCE_SUB_1 = int(os.environ.get("FORCE_SUB_1", "0"))
-FORCE_SUB_2 = int(os.environ.get("FORCE_SUB_2", "0"))
-FORCE_SUB_3 = int(os.environ.get("FORCE_SUB_3", "0"))
-FORCE_SUB_4 = int(os.environ.get("FORCE_SUB_4", "0"))
+FORCE_SUB_ = {}
+FSUB_TOTAL = 1
+while True:
+    key = f"FORCE_SUB_{FSUB_TOTAL}"
+    value = os.environ.get(key)
+    if value is None:
+        break
+    FORCE_SUB_[FSUB_TOTAL] = int(value)
+    FSUB_TOTAL += 1
+
+BUTTON_ROW = int(os.environ.get("BUTTON_ROW", "3"))
+BUTTON_TITLE = os.environ.get("BUTTON_TITLE", "Join")
+
 
 START_MESSAGE = os.environ.get(
     "START_MESSAGE",

@@ -10,10 +10,6 @@ from config import (
     BOT_TOKEN,
     CHANNEL_DB,
     ADMINS,
-    FORCE_SUB_1,
-    FORCE_SUB_2,
-    FORCE_SUB_3,
-    FORCE_SUB_4,
     LOGGER,
 )
 from pyrogram import filters
@@ -43,10 +39,6 @@ async def varsFunc(client: Bot, message: Message):
 BOT_TOKEN={BOT_TOKEN}
 CHANNEL_DB={CHANNEL_DB}
 ADMINS={ADMINS}
-FORCE_SUB_1={FORCE_SUB_1}
-FORCE_SUB_2={FORCE_SUB_2}
-FORCE_SUB_3={FORCE_SUB_3}
-FORCE_SUB_4={FORCE_SUB_4}
 </code>"""
     await sleep(0.5)
     await msg.edit_text(text)

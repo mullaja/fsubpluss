@@ -10,10 +10,7 @@ from config import (
     API_HASH,
     API_ID,
     CHANNEL_DB,
-    FORCE_SUB_1,
-    FORCE_SUB_2,
-    FORCE_SUB_3,
-    FORCE_SUB_4,
+    FORCE_SUB_,
     LOGGER,
     BOT_TOKEN,
 )
@@ -46,16 +43,16 @@ class Bot(Client):
             self.LOGGER(__name__).warning(e)
             sys.exit()
 
-        if FORCE_SUB_1:
+        for key, channel_id in FORCE_SUB_.items():
             try:
-                info = await self.get_chat(FORCE_SUB_1)
+                info = await self.get_chat(channel_id)
                 link = info.invite_link
                 if not link:
-                    await self.export_chat_invite_link(FORCE_SUB_1)
+                    await self.export_chat_invite_link(channel_id)
                     link = info.invite_link
-                self.invitelink = link
+                setattr(self, f"invitelink{key}", link)
                 self.LOGGER(__name__).info(
-                    "FORCE_SUB_1 Detected!\n"
+                    f"FORCE_SUB_{key} Detected!\n"
                     f"  Title: {info.title}\n"
                     f"  Chat ID: {info.id}\n\n"
                 )
@@ -63,70 +60,9 @@ class Bot(Client):
                 self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
                     f"Pastikan @{self.username} "
-                    "menjadi Admin di FORCE_SUB_1\n\n"
+                    f"menjadi Admin di FORCE_SUB_{key}\n\n"
                 )
                 sys.exit()
-        if FORCE_SUB_2:
-            try:
-                info = await self.get_chat(FORCE_SUB_2)
-                link = info.invite_link
-                if not link:
-                    await self.export_chat_invite_link(FORCE_SUB_2)
-                    link = info.invite_link
-                self.invitelink2 = link
-                self.LOGGER(__name__).info(
-                    "FORCE_SUB_2 Detected!\n"
-                    f"  Title: {info.title}\n"
-                    f"  Chat ID: {info.id}\n\n"
-                )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
-                self.LOGGER(__name__).warning(
-                    f"Pastikan @{self.username} "
-                    "menjadi Admin di FORCE_SUB_2\n\n"
-                )
-                sys.exit()
-        if FORCE_SUB_3:
-            try:
-                info = await self.get_chat(FORCE_SUB_3)
-                link = info.invite_link
-                if not link:
-                    await self.export_chat_invite_link(FORCE_SUB_1)
-                    link = info.invite_link
-                self.invitelink3 = link
-                self.LOGGER(__name__).info(
-                    "FORCE_SUB_3 Detected!\n"
-                    f"  Title: {info.title}\n"
-                    f"  Chat ID: {info.id}\n\n"
-                )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
-                self.LOGGER(__name__).warning(
-                    f"Pastikan @{self.username} "
-                    "menjadi Admin di FORCE_SUB_3\n\n"
-                )
-                sys.exit()
-        if FORCE_SUB_4:
-            try:
-                info = await self.get_chat(FORCE_SUB_4)
-                link = info.invite_link
-                if not link:
-                    await self.export_chat_invite_link(FORCE_SUB_4)
-                    link = info.invite_link
-                self.invitelink4 = link
-                self.LOGGER(__name__).info(
-                    "FORCE_SUB_4 Detected!\n"
-                    f"  Title: {info.title}\n"
-                    f"  Chat ID: {info.id}\n\n"
-                )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
-                self.LOGGER(__name__).warning(
-                    f"Pastikan @{self.username} "
-                    "menjadi Admin di FORCE_SUB_4\n\n"
-                )
-                sys.exit()
-
 
         try:
             db_channel = await self.get_chat(CHANNEL_DB)

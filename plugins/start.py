@@ -1,6 +1,6 @@
 #CodeXBotz #mrismanaziz
 
-import asyncio
+from asyncio import sleep
 from datetime import datetime
 from time import time
 
@@ -15,8 +15,7 @@ from config import (
 )
 from database.sql import add_user, delete_user, full_userbase, query_msg
 from pyrogram import filters
-from pyrogram.enums import ParseMode
-from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked
+from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 from helper_func import(
@@ -119,17 +118,15 @@ async def start_command(client: Bot, message: Message):
                 await msg.copy(
                     chat_id=message.from_user.id,
                     caption=caption,
-                    parse_mode=ParseMode.HTML,
                     protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
-                await asyncio.sleep(0.5)
+                await sleep(0.5)
             except FloodWait as e:
-                await asyncio.sleep(e.x)
+                await sleep(e.value)
                 await msg.copy(
                     chat_id=message.from_user.id,
                     caption=caption,
-                    parse_mode=ParseMode.HTML,
                     protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
@@ -190,11 +187,9 @@ async def send_text(client: Bot, message: Message):
         broadcast_msg = message.reply_to_message
         total = 0
         successful = 0
-        blocked = 0
-        deleted = 0
         unsuccessful = 0
 
-        pls_wait = await message.reply(
+        please_wait = await message.reply(
             "Mengirim pesan siaran..."
         )
         for row in query:
@@ -204,31 +199,26 @@ async def send_text(client: Bot, message: Message):
                     await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
                 except FloodWait as e:
-                    await asyncio.sleep(e.x)
+                    await sleep(e.value)
                     await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
-                except UserIsBlocked:
+                except:
                     await delete_user(chat_id)
-                    blocked += 1
-                except InputUserDeactivated:
-                    await delete_user(chat_id)
-                    deleted += 1
-                except BaseException:
                     unsuccessful += 1
+                    continue
                 total += 1
         status = f"""
-Berhasil!
+Status Broadcast
 Pengguna: {total}
 Berhasil: {successful}
 Gagal: {unsuccessful}
-Diblokir: {blocked}
-Akun Terhapus: {deleted}"""
-        return await pls_wait.edit(status)
+"""
+        return await please_wait.edit(status)
     else:
         msg = await message.reply(
             "Balas ke pesan!"
         )
-        await asyncio.sleep(5)
+        await sleep(5)
         await msg.delete()
 
 

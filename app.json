@@ -11,6 +11,9 @@
     "DATABASE_URL": {
       "required": true
     },
+    "DATABASE_NAME": {
+      "required": true
+    },
     "ADMINS": {
       "required": true
     },

@@ -6,7 +6,7 @@ from distutils.util import strtobool
 from dotenv import load_dotenv
 from logging.handlers import RotatingFileHandler
 
-load_dotenv("config.env")
+load_dotenv()
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
@@ -15,6 +15,7 @@ API_HASH = os.environ.get("API_HASH", "b18441a1ff607e10a989891a5462e627")
 
 CHANNEL_DB = int(os.environ.get("CHANNEL_DB", ""))
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
 
 RESTRICT = strtobool(os.environ.get("RESTRICT", "True"))
 

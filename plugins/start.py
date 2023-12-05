@@ -13,7 +13,8 @@ from config import (
     RESTRICT,
     START_MESSAGE,
 )
-from database.sql import add_user, delete_user, full_userbase, query_msg
+from database.mongo import add_user, del_user, full_userbase, present_user
+
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, Message
@@ -55,16 +56,11 @@ async def _human_time_duration(seconds):
 @Bot.on_message(filters.command("start") & filters.private & subs & sub1 & sub2 & sub3 & sub4)
 async def start_command(client: Bot, message: Message):
     id = message.from_user.id
-    user_name = (
-        f"@{message.from_user.username}"
-        if message.from_user.username
-        else None
-    )
-
-    try:
-        await add_user(id, user_name)
-    except:
-        pass
+    if not await present_user(id):
+        try:
+            await add_user(id)
+        except:
+            pass
     text = message.text
     if len(text) > 7:
         try:
@@ -103,7 +99,6 @@ async def start_command(client: Bot, message: Message):
         await temp_msg.delete()
 
         for msg in messages:
-
             if bool(CUSTOM_CAPTION) & bool(msg.document):
                 caption = CUSTOM_CAPTION.format(
                     previouscaption=msg.caption.html if msg.caption else "",
@@ -112,8 +107,7 @@ async def start_command(client: Bot, message: Message):
 
             else:
                 caption = msg.caption.html if msg.caption else ""
-
-            reply_markup = msg.reply_markup if DISABLE_BUTTON else None
+                reply_markup = msg.reply_markup if DISABLE_BUTTON else None
             try:
                 await msg.copy(
                     chat_id=message.from_user.id,
@@ -171,19 +165,18 @@ async def not_joined(client: Bot, message: Message):
     )
 
 
-@Bot.on_message(filters.command(["users", "stats"]) & filters.user(ADMINS))
+@Bot.on_message(filters.command('users') & filters.private & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
-    msg = await client.send_message(
-        chat_id=message.chat.id, text="Sedang diproses..."
-    )
+    msg = await client.send_message(message.chat.id, "Mengecek...")
     users = await full_userbase()
-    await msg.edit(f"{len(users)} Pengguna")
+    await msg.edit(f"{len(users)} pengguna yang menggunakan bot ini.")
+
 
 
 @Bot.on_message(filters.command("broadcast") & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
     if message.reply_to_message:
-        query = await query_msg()
+        query = await full_userbase()
         broadcast_msg = message.reply_to_message
         total = 0
         successful = 0
@@ -192,21 +185,22 @@ async def send_text(client: Bot, message: Message):
         please_wait = await message.reply(
             "Mengirim pesan siaran..."
         )
-        for row in query:
-            chat_id = int(row[0])
-            if chat_id not in ADMINS:
-                try:
-                    await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
-                    successful += 1
-                except FloodWait as e:
-                    await sleep(e.value)
-                    await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
-                    successful += 1
-                except:
-                    await delete_user(chat_id)
-                    unsuccessful += 1
-                    continue
-                total += 1
+        for chat_id in query:
+            try:
+                await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
+                successful += 1
+            except FloodWait as e:
+                await sleep(e.value)
+                await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
+                successful += 1
+            except UserIsBlocked:
+                await del_user(chat_id)
+            except InputUserDeactivated:
+                await del_user(chat_id)
+            except:
+                unsuccessful += 1
+                pass
+            total += 1
         status = f"""
 Status Broadcast
 Pengguna: {total}

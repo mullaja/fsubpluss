@@ -5,6 +5,9 @@
     "BOT_TOKEN": {
       "required": true
     },
+    "ADMINS": {
+      "required": true
+    },
     "CHANNEL_DB": {
       "required": true
     },
@@ -14,11 +17,8 @@
     "DATABASE_NAME": {
       "required": true
     },
-    "ADMINS": {
-      "required": true
-    },
     "FORCE_SUB_1": {
-      "required": true
+      "required": false
     },
     "FORCE_SUB_2": {
       "required": false
@@ -27,24 +27,6 @@
       "required": false
     },
     "FORCE_SUB_4": {
-      "required": false
-    },
-    "FORCE_SUB_5": {
-      "required": false
-    },
-    "FORCE_SUB_6": {
-      "required": false
-    },
-    "FORCE_SUB_7": {
-      "required": false
-    },
-    "FORCE_SUB_8": {
-      "required": false
-    },
-    "FORCE_SUB_9": {
-      "required": false
-    },
-    "FORCE_SUB_10": {
       "required": false
     }
   },

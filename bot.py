@@ -1,7 +1,7 @@
 # CodeXBotz
 # mrismanaziz
 
-import sys
+from sys import exit
 
 from pyromod.listen import Client
 from pyrogram.enums import ParseMode
@@ -41,7 +41,7 @@ class Bot(Client):
             )
         except Exception as e:
             self.LOGGER(__name__).warning(e)
-            sys.exit()
+            exit()
 
         for key, channel_id in FORCE_SUB_.items():
             try:
@@ -62,7 +62,7 @@ class Bot(Client):
                     f"Pastikan @{self.username} "
                     f"menjadi Admin di FORCE_SUB_{key}\n\n"
                 )
-                sys.exit()
+                exit()
 
         try:
             db_channel = await self.get_chat(CHANNEL_DB)
@@ -79,7 +79,7 @@ class Bot(Client):
                 f"Pastikan @{self.username} "
                 "menjadi Admin di CHANNEL_DB\n\n"
             )
-            sys.exit()
+            exit()
 
         self.LOGGER(__name__).info(
             "Bot Aktif!\n\n"

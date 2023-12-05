@@ -1,46 +1,55 @@
 # Codexbotz 
 # @mrismanaziz
 
-import logging
-import os
-from distutils.util import strtobool
+
+from os import environ
 from dotenv import load_dotenv
+from distutils.util import strtobool
 from logging.handlers import RotatingFileHandler
+from logging import(
+    basicConfig, 
+    INFO, 
+    WARNING, 
+    StreamHandler, 
+    getLogger,
+    Logger
+)
 
 load_dotenv("config.env")
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
-API_ID = int(os.environ.get("API_ID", "2040"))
-API_HASH = os.environ.get("API_HASH", "b18441a1ff607e10a989891a5462e627")
+BOT_TOKEN = environ.get("BOT_TOKEN", "")
 
-CHANNEL_DB = int(os.environ.get("CHANNEL_DB", ""))
-DATABASE_URL = os.environ.get("DATABASE_URL", "")
-DATABASE_NAME = os.environ.get("DATABASE_NAME", "")
+API_ID = int(environ.get("API_ID", "2040"))
+API_HASH = environ.get("API_HASH", "b18441a1ff607e10a989891a5462e627")
 
-RESTRICT = strtobool(os.environ.get("RESTRICT", "True"))
+CHANNEL_DB = int(environ.get("CHANNEL_DB", ""))
+DATABASE_URL = environ.get("DATABASE_URL", "")
+DATABASE_NAME = environ.get("DATABASE_NAME", "")
+
+RESTRICT = strtobool(environ.get("RESTRICT", "True"))
 
 FORCE_SUB_ = {}
 FSUB_TOTAL = 1
 while True:
     key = f"FORCE_SUB_{FSUB_TOTAL}"
-    value = os.environ.get(key)
+    value = environ.get(key)
     if value is None:
         break
     FORCE_SUB_[FSUB_TOTAL] = int(value)
     FSUB_TOTAL += 1
 
-BUTTON_ROW = int(os.environ.get("BUTTON_ROW", "3"))
-BUTTON_TITLE = os.environ.get("BUTTON_TITLE", "Join")
+BUTTON_ROW = int(environ.get("BUTTON_ROW", "3"))
+BUTTON_TITLE = environ.get("BUTTON_TITLE", "Join")
 
 
-START_MESSAGE = os.environ.get(
+START_MESSAGE = environ.get(
     "START_MESSAGE",
     "Halo {mention}!"
     "\n\n"
     "Saya dapat menyimpan file pribadi di Channel tertentu dan pengguna lain dapat mengaksesnya dari link khusus.",
 )
-FORCE_MESSAGE = os.environ.get(
+FORCE_MESSAGE = environ.get(
     "FORCE_MESSAGE",
     "Halo {mention}!"
     "\n\n"
@@ -50,24 +59,23 @@ FORCE_MESSAGE = os.environ.get(
 )
 
 try:
-    ADMINS = [int(x) for x in (os.environ.get("ADMINS", "").split())]
+    ADMINS = [int(x) for x in (environ.get("ADMINS", "").split())]
 except ValueError:
     raise Exception("Daftar Admin Anda tidak berisi User ID Telegram yang valid.")
     
-CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
-DISABLE_BUTTON = strtobool(os.environ.get("DISABLE_BUTTON", "False"))
+CUSTOM_CAPTION = environ.get("CUSTOM_CAPTION", None)
+DISABLE_BUTTON = strtobool(environ.get("DISABLE_BUTTON", "False"))
 
 
 LOGS_FILE = "logs.txt"
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(levelname)s] - %(name)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
+basicConfig(
+    level=INFO,
+    format="[%(levelname)s] - %(message)s",
     handlers=[
         RotatingFileHandler(LOGS_FILE, maxBytes=50000000, backupCount=10),
-        logging.StreamHandler(),
+        StreamHandler(),
     ],
 )
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-def LOGGER(name: str) -> logging.Logger:
-    return logging.getLogger(name)
+getLogger("pyrogram").setLevel(WARNING)
+def LOGGER(name: str) -> Logger:
+    return getLogger(name)

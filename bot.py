@@ -7,8 +7,6 @@ from pyromod.listen import Client
 from pyrogram.enums import ParseMode
 
 from config import (
-    API_HASH,
-    API_ID,
     CHANNEL_DB,
     FORCE_SUB_,
     LOGGER,
@@ -20,8 +18,8 @@ class Bot(Client):
     def __init__(self):
         super().__init__(
             name="Bot",
-            api_id=API_ID,
-            api_hash=API_HASH,
+            api_id=2040,
+            api_hash="b18441a1ff607e10a989891a5462e627",
             plugins={"root": "plugins"},
             bot_token=BOT_TOKEN,
             in_memory=True,

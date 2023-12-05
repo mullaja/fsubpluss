@@ -1,4 +1,5 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz 
+# mrismanaziz
 
 from asyncio import sleep
 import base64
@@ -136,7 +137,7 @@ async def get_messages(client, message_ids):
             msgs = await client.get_messages(
                 chat_id=client.db_channel.id, message_ids=temb_ids
             )
-        except BaseException:
+        except Exception:
             pass
         total_messages += len(temb_ids)
         messages.extend(msgs)

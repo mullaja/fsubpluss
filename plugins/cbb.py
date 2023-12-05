@@ -1,7 +1,11 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz 
+# mrismanaziz
+
+from asyncio import sleep
 
 from bot import Bot
 from Data import Data
+
 from pyrogram import filters
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
@@ -32,6 +36,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
     data = query.data
     if data == "about":
         try:
+            await sleep(0.5)
             await query.message.edit_text(
                 text=Data.ABOUT.format(client.username),
                 disable_web_page_preview=True,
@@ -41,6 +46,7 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             pass
     elif data == "help":
         try:
+            await sleep(0.5)
             await query.message.edit_text(
                 text=Data.HELP,
                 disable_web_page_preview=True,
@@ -52,5 +58,5 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         await query.message.delete()
         try:
             await query.message.reply_to_message.delete()
-        except BaseException:
+        except Exception:
             pass

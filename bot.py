@@ -1,4 +1,5 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz
+# mrismanaziz
 
 import sys
 
@@ -41,8 +42,8 @@ class Bot(Client):
                 f"BOT_TOKEN detected!\n"
                 f"  Username: @{self.username}\n\n"
             )
-        except Exception as a:
-            self.LOGGER(__name__).warning(a)
+        except Exception as e:
+            self.LOGGER(__name__).warning(e)
             sys.exit()
 
         if FORCE_SUB_1:
@@ -58,8 +59,8 @@ class Bot(Client):
                     f"  Title: {info.title}\n"
                     f"  Chat ID: {info.id}\n\n"
                 )
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
                     f"Pastikan @{self.username} "
                     "menjadi Admin di FORCE_SUB_1\n\n"
@@ -78,8 +79,8 @@ class Bot(Client):
                     f"  Title: {info.title}\n"
                     f"  Chat ID: {info.id}\n\n"
                 )
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
                     f"Pastikan @{self.username} "
                     "menjadi Admin di FORCE_SUB_2\n\n"
@@ -98,8 +99,8 @@ class Bot(Client):
                     f"  Title: {info.title}\n"
                     f"  Chat ID: {info.id}\n\n"
                 )
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
                     f"Pastikan @{self.username} "
                     "menjadi Admin di FORCE_SUB_3\n\n"
@@ -118,8 +119,8 @@ class Bot(Client):
                     f"  Title: {info.title}\n"
                     f"  Chat ID: {info.id}\n\n"
                 )
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
                     f"Pastikan @{self.username} "
                     "menjadi Admin di FORCE_SUB_4\n\n"
@@ -130,8 +131,7 @@ class Bot(Client):
         try:
             db_channel = await self.get_chat(CHANNEL_DB)
             self.db_channel = db_channel
-            test = await self.send_message(chat_id=db_channel.id, text="Bot Aktif!\n\n")
-            await test.delete()
+            await self.send_message(chat_id=db_channel.id, text="Bot Aktif!\n\n")
             self.LOGGER(__name__).info(
                 "CHANNEL_DB Detected!\n"
                 f"  Title: {db_channel.title}\n"

@@ -1,4 +1,4 @@
-#(©)CodeXBotz
+# CodeXBotz
 
 from pymongo import MongoClient
 from config import DATABASE_URL, DATABASE_NAME

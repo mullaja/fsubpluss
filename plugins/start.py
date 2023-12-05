@@ -1,4 +1,5 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz 
+# mrismanaziz
 
 from asyncio import sleep
 from datetime import datetime
@@ -59,13 +60,13 @@ async def start_command(client: Bot, message: Message):
     if not await present_user(id):
         try:
             await add_user(id)
-        except:
+        except Exception:
             pass
     text = message.text
     if len(text) > 7:
         try:
             base64_string = text.split(" ", 1)[1]
-        except BaseException:
+        except Exception:
             return
         string = await decode(base64_string)
         argument = string.split("-")
@@ -73,7 +74,7 @@ async def start_command(client: Bot, message: Message):
             try:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
                 end = int(int(argument[2]) / abs(client.db_channel.id))
-            except BaseException:
+            except Exception:
                 return
             if start <= end:
                 ids = range(start, end + 1)
@@ -88,12 +89,12 @@ async def start_command(client: Bot, message: Message):
         elif len(argument) == 2:
             try:
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
-            except BaseException:
+            except Exception:
                 return
         temp_msg = await message.reply("Sedang diproses...")
         try:
             messages = await get_messages(client, ids)
-        except BaseException:
+        except Exception:
             await message.reply_text("Error!")
             return
         await temp_msg.delete()
@@ -124,7 +125,7 @@ async def start_command(client: Bot, message: Message):
                     protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
-            except BaseException:
+            except Exception:
                 pass
     else:
         buttons = start_button(client)
@@ -169,7 +170,8 @@ async def not_joined(client: Bot, message: Message):
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(message.chat.id, "Mengecek...")
     users = await full_userbase()
-    await msg.edit(f"{len(users)} pengguna yang menggunakan bot ini.")
+    await sleep(0.5)
+    await msg.edit(f"{len(users)} Pengguna Bot")
 
 
 
@@ -189,15 +191,13 @@ async def send_text(client: Bot, message: Message):
             try:
                 await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                 successful += 1
+                await sleep(0.25)
             except FloodWait as e:
                 await sleep(e.value)
                 await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                 successful += 1
-            except UserIsBlocked:
+            except Exception:
                 await del_user(chat_id)
-            except InputUserDeactivated:
-                await del_user(chat_id)
-            except:
                 unsuccessful += 1
                 pass
             total += 1
@@ -206,7 +206,9 @@ Status Broadcast
 Pengguna: {total}
 Berhasil: {successful}
 Gagal: {unsuccessful}
+* Termasuk Bot Admins
 """
+        await sleep(0.5)
         return await please_wait.edit(status)
     else:
         msg = await message.reply(

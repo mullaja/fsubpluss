@@ -1,4 +1,5 @@
-# Codexbotz #mrismanaziz
+# Codexbotz
+# mrismanaziz
 
 from asyncio import sleep
 
@@ -24,8 +25,6 @@ from helper_func import encode
             "batch",
             "logs",
             "genlink",
-            "update",
-            "stats",
             "vars",
         ]
     )
@@ -43,6 +42,7 @@ async def channel_post(client: Client, message: Message):
         )
     except Exception as e:
         LOGGER(__name__).warning(e)
+        await sleep(0.5)
         await reply_text.edit_text("Error!")
         return
     converted_id = post_message.id * abs(client.db_channel.id)
@@ -60,6 +60,7 @@ async def channel_post(client: Client, message: Message):
         ]
     )
 
+    await sleep(0.5)
     await reply_text.edit(
         f"Link: {link}",
         reply_markup=reply_markup,
@@ -68,6 +69,7 @@ async def channel_post(client: Client, message: Message):
 
     if not DISABLE_BUTTON:
         try:
+            await sleep(0.5)
             await post_message.edit_reply_markup(reply_markup)
         except FloodWait as e:
             await sleep(e.value)
@@ -96,6 +98,7 @@ async def new_post(client: Client, message: Message):
         ]
     )
     try:
+        await sleep(0.5)
         await message.edit_reply_markup(reply_markup)
     except FloodWait as e:
         await sleep(e.value)

@@ -1,4 +1,5 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz
+# mrismanaziz
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -18,7 +19,7 @@ async def batch(client: Client, message: Message):
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
                 timeout=60,
             )
-        except BaseException:
+        except Exception:
             return
         f_msg_id = await get_message_id(client, first_message)
         if f_msg_id:
@@ -37,7 +38,7 @@ async def batch(client: Client, message: Message):
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
                 timeout=60,
             )
-        except BaseException:
+        except Exception:
             return
         s_msg_id = await get_message_id(client, second_message)
         if s_msg_id:
@@ -77,7 +78,7 @@ async def link_generator(client: Client, message: Message):
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
                 timeout=60,
             )
-        except BaseException:
+        except Exception:
             return
         msg_id = await get_message_id(client, channel_message)
         if msg_id:

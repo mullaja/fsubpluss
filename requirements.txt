@@ -1,7 +1,5 @@
 pyrogram
-Pyromod
-TgCrypto
+pyromod
+tgcrypto
 python-dotenv
 pymongo
-dnspython
-gitpython

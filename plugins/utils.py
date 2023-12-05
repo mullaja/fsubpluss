@@ -1,23 +1,20 @@
-#CodeXBotz #mrismanaziz
+# CodeXBotz
+# mrismanaziz
 
 import os
 
+from asyncio import sleep
+
 from bot import Bot
 from config import (
-    ADMINS,
-    API_HASH,
-    API_ID,
+    BOT_TOKEN,
     CHANNEL_DB,
-    DATABASE_URL,
-    FORCE_MESSAGE,
+    ADMINS,
     FORCE_SUB_1,
     FORCE_SUB_2,
     FORCE_SUB_3,
     FORCE_SUB_4,
     LOGGER,
-    RESTRICT,
-    START_MESSAGE,
-    BOT_TOKEN,
 )
 from pyrogram import filters
 from pyrogram.types import Message
@@ -42,22 +39,14 @@ async def get_bot_logs(client: Bot, m: Message):
 @Bot.on_message(filters.command("vars") & filters.user(ADMINS))
 async def varsFunc(client: Bot, message: Message):
     msg = await message.reply_text("Tunggu Sebentar...")
-    text = f"""
-<b>MANDATORY VARS</b>
-ADMINS = <code>{ADMINS}</code>
-API_ID = <code>{API_ID}</code>
-API_HASH = <code>{API_HASH}</code>
-BOT_TOKEN = <code>{BOT_TOKEN}</code>
-CHANNEL_DB = <code>{CHANNEL_DB}</code>
-DATABASE_URL = <code>{DATABASE_URL}</code>
-    
-<b>OPTIONAL VARS</b>
-RESTRICT = <code>{RESTRICT}</code>
-FORCE_SUB_1 = <code>{FORCE_SUB_1}</code>
-FORCE_SUB_2 = <code>{FORCE_SUB_2}</code>
-FORCE_SUB_3 = <code>{FORCE_SUB_3}</code>
-FORCE_SUB_4 = <code>{FORCE_SUB_4}</code>
-START_MESSAGE = <code>{START_MESSAGE}</code>
-FORCE_MESSAGE = <code>{FORCE_MESSAGE}</code>
-"""
+    text = f"""<code>
+BOT_TOKEN={BOT_TOKEN}
+CHANNEL_DB={CHANNEL_DB}
+ADMINS={ADMINS}
+FORCE_SUB_1={FORCE_SUB_1}
+FORCE_SUB_2={FORCE_SUB_2}
+FORCE_SUB_3={FORCE_SUB_3}
+FORCE_SUB_4={FORCE_SUB_4}
+</code>"""
+    await sleep(0.5)
     await msg.edit_text(text)

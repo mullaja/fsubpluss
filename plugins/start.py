@@ -1,6 +1,7 @@
 #CodeXBotz #mrismanaziz
 
-from asyncio import sleep
+import asyncio
+
 from datetime import datetime
 from time import time
 
@@ -121,9 +122,8 @@ async def start_command(client: Bot, message: Message):
                     protect_content=RESTRICT,
                     reply_markup=reply_markup,
                 )
-                await sleep(0.5)
             except FloodWait as e:
-                await sleep(e.value)
+                await asyncio.sleep(e.value)
                 await msg.copy(
                     chat_id=message.from_user.id,
                     caption=caption,
@@ -199,7 +199,7 @@ async def send_text(client: Bot, message: Message):
                     await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
                 except FloodWait as e:
-                    await sleep(e.value)
+                    await asyncio.sleep(e.value)
                     await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                     successful += 1
                 except:
@@ -218,7 +218,6 @@ Gagal: {unsuccessful}
         msg = await message.reply(
             "Balas ke pesan!"
         )
-        await sleep(5)
         await msg.delete()
 
 

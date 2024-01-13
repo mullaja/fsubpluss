@@ -1,6 +1,6 @@
 #CodeXBotz #mrismanaziz
 
-from asyncio import sleep
+import asyncio
 import base64
 import re
 
@@ -132,7 +132,7 @@ async def get_messages(client, message_ids):
                 chat_id=client.db_channel.id, message_ids=temb_ids
             )
         except FloodWait as e:
-            await sleep(e.value)
+            await asyncio.sleep(e.value)
             msgs = await client.get_messages(
                 chat_id=client.db_channel.id, message_ids=temb_ids
             )

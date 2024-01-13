@@ -5,8 +5,6 @@
 from os import remove
 from os.path import exists
 
-from asyncio import sleep
-
 from bot import Bot
 from config import ADMINS, LOGGER
 from pyrogram import filters

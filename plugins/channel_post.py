@@ -1,7 +1,7 @@
 # Codexbotz
 # mrismanaziz
 
-from asyncio import sleep
+import asyncio
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
@@ -35,13 +35,12 @@ async def channel_post(client: Client, message: Message):
             chat_id=client.db_channel.id, disable_notification=True
         )
     except FloodWait as e:
-        await sleep(e.value)
+        await asyncio.sleep(e.value)
         post_message = await message.copy(
             chat_id=client.db_channel.id, disable_notification=True
         )
     except Exception as e:
         LOGGER(__name__).warning(e)
-        await sleep(0.5)
         await reply_text.edit_text("Error!")
         return
     converted_id = post_message.id * abs(client.db_channel.id)
@@ -59,7 +58,6 @@ async def channel_post(client: Client, message: Message):
         ]
     )
 
-    await sleep(0.5)
     await reply_text.edit(
         f"Link: {link}",
         reply_markup=reply_markup,
@@ -68,10 +66,9 @@ async def channel_post(client: Client, message: Message):
 
     if not DISABLE_BUTTON:
         try:
-            await sleep(0.5)
             await post_message.edit_reply_markup(reply_markup)
         except FloodWait as e:
-            await sleep(e.value)
+            await asyncio.sleep(e.value)
             await post_message.edit_reply_markup(reply_markup)
         except Exception:
             pass
@@ -96,10 +93,9 @@ async def new_post(client: Client, message: Message):
         ]
     )
     try:
-        await sleep(0.5)
         await message.edit_reply_markup(reply_markup)
     except FloodWait as e:
-        await sleep(e.value)
+        await asyncio.sleep(e.value)
         await message.edit_reply_markup(reply_markup)
     except Exception:
         pass

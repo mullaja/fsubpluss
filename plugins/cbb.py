@@ -1,8 +1,6 @@
 # CodeXBotz 
 # mrismanaziz
 
-from asyncio import sleep
-
 from bot import Bot
 from Data import Data
 
@@ -36,7 +34,6 @@ async def cb_handler(client: Bot, query: CallbackQuery):
     data = query.data
     if data == "about":
         try:
-            await sleep(0.5)
             await query.message.edit_text(
                 text=Data.ABOUT.format(client.username),
                 disable_web_page_preview=True,
@@ -46,7 +43,6 @@ async def cb_handler(client: Bot, query: CallbackQuery):
             pass
     elif data == "help":
         try:
-            await sleep(0.5)
             await query.message.edit_text(
                 text=Data.HELP,
                 disable_web_page_preview=True,

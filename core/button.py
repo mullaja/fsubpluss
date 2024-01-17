@@ -1,9 +1,9 @@
-from core.config import FORCE_SUB_, BUTTON_ROW, BUTTON_TITLE
+from core.config import FORCE_SUB_, BUTTON_ROW
 
 from hydrogram.types import InlineKeyboardButton
 
 
-def start_button(client):
+async def start_button(client):
     if not FORCE_SUB_:
         buttons = [
             [
@@ -16,7 +16,9 @@ def start_button(client):
     dynamic_button = []
     current_row = []
     for key in FORCE_SUB_.keys():
-        current_row.append(InlineKeyboardButton(text=f"{BUTTON_TITLE} {key}", url=getattr(client, f'invitelink{key}')))
+        chat_id = FORCE_SUB_[key]
+        button_name = (await client.get_chat(chat_id)).title
+        current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
         if len(current_row) == BUTTON_ROW:
             dynamic_button.append(current_row)
             current_row = []
@@ -34,12 +36,14 @@ def start_button(client):
     return buttons
 
 
-def fsub_button(client, message):
+async def fsub_button(client, message):
     if FORCE_SUB_:
         dynamic_button = []
         current_row = []
         for key in FORCE_SUB_.keys():
-            current_row.append(InlineKeyboardButton(text=f"{BUTTON_TITLE} {key}", url=getattr(client, f'invitelink{key}')))
+            chat_id = FORCE_SUB_[key]
+            button_name = (await client.get_chat(chat_id)).title
+            current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
             if len(current_row) == BUTTON_ROW:
                 dynamic_button.append(current_row)
                 current_row = []

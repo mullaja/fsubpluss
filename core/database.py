@@ -1,8 +1,5 @@
-# CodeXBotz
-
-
 from pymongo import MongoClient
-from config import DATABASE_URL, DATABASE_NAME
+from core.config import DATABASE_URL, DATABASE_NAME
 
 dbclient = MongoClient(DATABASE_URL)
 database = dbclient[DATABASE_NAME]

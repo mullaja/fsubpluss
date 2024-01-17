@@ -1,6 +1,3 @@
-# CodeXBotz 
-# mrismanaziz
-
 import asyncio
 import base64
 import re
@@ -10,10 +7,10 @@ from hydrogram.enums import ChatMemberStatus
 from hydrogram.errors import FloodWait
 from hydrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
-from config import ADMINS, FORCE_SUB_
+from core.config import ADMINS, FORCE_SUB_
 
 
-async def is_subscribed(filter, client, update):
+async def subscribed(filter, client, update):
     user_id = update.from_user.id
     if user_id in ADMINS:
         return True
@@ -26,11 +23,13 @@ async def is_subscribed(filter, client, update):
 
     return member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]
 
+
 async def encode(string):
     string_bytes = string.encode("ascii")
     base64_bytes = base64.urlsafe_b64encode(string_bytes)
     base64_string = (base64_bytes.decode("ascii")).strip("=")
     return base64_string
+
 
 async def decode(base64_string):
     base64_string = base64_string.strip("=") # links generated before this commit will be having = sign, hence striping them to handle padding errors.
@@ -82,4 +81,5 @@ async def get_message_id(client, message):
         elif channel_id == client.db_channel.username:
             return msg_id
 
-subs = filters.create(is_subscribed)
+
+is_subscriber = filters.create(subscribed)

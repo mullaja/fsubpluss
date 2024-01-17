@@ -1,9 +1,4 @@
-# CodeXBotz 
-# mrismanaziz
-# devolart
-
-
-from config import FORCE_SUB_, BUTTON_ROW, BUTTON_TITLE
+from core.config import FORCE_SUB_, BUTTON_ROW, BUTTON_TITLE
 
 from hydrogram.types import InlineKeyboardButton
 

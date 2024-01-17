@@ -7,6 +7,8 @@ WORKDIR /home/fsub
 # CLONE REPOSITORY
 COPY . ./
 
+RUN apk add git
+
 # IGNORE PIP WARNING 
 ENV PIP_ROOT_USER_ACTION=ignore
 

@@ -1,19 +1,15 @@
-# CodeXBotz
-# mrismanaziz
-
-
 from os import remove
 from os.path import exists
 
-from bot import Bot
-from config import ADMINS, LOGGER
+from core import Bot
+from core.config import ADMINS, LOGGER
 from hydrogram import filters
 from hydrogram.types import Message
 
 
-@Bot.on_message(filters.command("logs") & filters.user(ADMINS))
+@Bot.on_message(filters.command("log") & filters.user(ADMINS))
 async def logs(client: Bot, message: Message):
-    logs_path = "logs.txt"
+    logs_path = "log.txt"
     if exists(logs_path):
         try:
             await message.reply_document(

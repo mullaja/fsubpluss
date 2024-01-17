@@ -1,15 +1,12 @@
-# Codexbotz
-# mrismanaziz
-
 import asyncio
 
 from hydrogram import Client, filters
 from hydrogram.errors import FloodWait
 from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from bot import Bot
-from config import ADMINS, CHANNEL_DB, DISABLE_BUTTON, LOGGER
-from helper_func import encode
+from core import Bot
+from core.config import ADMINS, CHANNEL_DB, DISABLE_BUTTON, LOGGER
+from core.func import encode
 
 
 @Bot.on_message(
@@ -18,13 +15,13 @@ from helper_func import encode
     & ~filters.command(
         [
             "start",
-            "users",
-            "broadcast",
+            "help",
             "ping",
             "uptime",
+            "log",
+            "users",
             "batch",
-            "logs",
-            "genlink"
+            "broadcast"
         ]
     )
 )

@@ -5,10 +5,10 @@ import asyncio
 import base64
 import re
 
-from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import FloodWait
-from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from hydrogram import filters
+from hydrogram.enums import ChatMemberStatus
+from hydrogram.errors import FloodWait
+from hydrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
 from config import ADMINS, FORCE_SUB_
 

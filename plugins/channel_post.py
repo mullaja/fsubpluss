@@ -3,9 +3,9 @@
 
 import asyncio
 
-from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from hydrogram import Client, filters
+from hydrogram.errors import FloodWait
+from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from bot import Bot
 from config import ADMINS, CHANNEL_DB, DISABLE_BUTTON, LOGGER

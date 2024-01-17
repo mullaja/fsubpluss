@@ -4,9 +4,9 @@
 from bot import Bot
 from Data import Data
 
-from pyrogram import filters
-from pyrogram.errors import MessageNotModified
-from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
+from hydrogram import filters
+from hydrogram.errors import MessageNotModified
+from hydrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 
 
 @Bot.on_message(filters.private & filters.incoming & filters.command("about"))

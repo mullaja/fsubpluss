@@ -5,8 +5,8 @@
 from os import remove
 from os.path import exists
 
-from bot import Bot
-from config import ADMINS, LOGGER
+from core import Bot
+from core.config import ADMINS, LOGGER
 from hydrogram import filters
 from hydrogram.types import Message
 

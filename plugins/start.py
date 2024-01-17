@@ -6,8 +6,8 @@ import asyncio
 from datetime import datetime
 from time import time
 
-from bot import Bot
-from config import (
+from core import Bot
+from core.config import (
     ADMINS,
     CUSTOM_CAPTION,
     DISABLE_BUTTON,
@@ -15,19 +15,19 @@ from config import (
     RESTRICT,
     START_MESSAGE,
 )
-from database.mongo import add_user, del_user, full_userbase, present_user
+from core.database import add_user, del_user, full_userbase, present_user
 
 from hydrogram import filters
 from hydrogram.errors import FloodWait
 from hydrogram.types import InlineKeyboardMarkup, Message
 
-from helper_func import(
+from core.func import(
     decode,
     get_messages, 
     subs,
 )
 
-from .button import fsub_button, start_button
+from core.button import fsub_button, start_button
 
 START_TIME = datetime.utcnow()
 START_TIME_ISO = START_TIME.replace(microsecond=0).isoformat()

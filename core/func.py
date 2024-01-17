@@ -10,7 +10,7 @@ from hydrogram.enums import ChatMemberStatus
 from hydrogram.errors import FloodWait
 from hydrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
-from config import ADMINS, FORCE_SUB_
+from core.config import ADMINS, FORCE_SUB_
 
 
 async def is_subscribed(filter, client, update):

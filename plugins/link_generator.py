@@ -1,8 +1,8 @@
 # CodeXBotz
 # mrismanaziz
 
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from hydrogram import filters
+from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from bot import Bot
 from config import ADMINS

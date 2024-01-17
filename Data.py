@@ -1,7 +1,7 @@
 # CodeXBotz 
 # mrismanaziz
 
-from pyrogram.types import InlineKeyboardButton
+from hydrogram.types import InlineKeyboardButton
 
 class Data:
     HELP = """
@@ -40,6 +40,6 @@ Admin Bot
     ABOUT = """
 @{} adalah Bot untuk menyimpan postingan atau file yang dapat diakses melalui link khusus.
 
-  Framework: <a href='https://docs.pyrogram.org'>Pyrogram</a>
+  Framework: <a href='https://docs.hydrogram.org'>hydrogram</a>
   Re-Code From: <a href='https://github.com/mrismanaziz/File-Sharing-Man'>File-Sharing-Man</a>
 """

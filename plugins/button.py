@@ -5,7 +5,7 @@
 
 from config import FORCE_SUB_, BUTTON_ROW, BUTTON_TITLE
 
-from pyrogram.types import InlineKeyboardButton
+from hydrogram.types import InlineKeyboardButton
 
 
 def start_button(client):

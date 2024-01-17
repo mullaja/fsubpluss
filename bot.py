@@ -3,8 +3,7 @@
 
 from sys import exit
 
-from pyromod.listen import Client
-from pyrogram.enums import ParseMode
+from hydrogram import Client
 
 from config import (
     CHANNEL_DB,
@@ -23,7 +22,6 @@ class Bot(Client):
             plugins={"root": "plugins"},
             bot_token=BOT_TOKEN,
             in_memory=True,
-            parse_mode=ParseMode.HTML
         )
         self.LOGGER = LOGGER
 

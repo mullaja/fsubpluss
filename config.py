@@ -73,6 +73,6 @@ basicConfig(
         StreamHandler(),
     ],
 )
-getLogger("pyrogram").setLevel(WARNING)
+getLogger("hydrogram").setLevel(WARNING)
 def LOGGER(name: str) -> Logger:
     return getLogger(name)

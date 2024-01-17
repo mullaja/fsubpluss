@@ -17,9 +17,9 @@ from config import (
 )
 from database.mongo import add_user, del_user, full_userbase, present_user
 
-from pyrogram import filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import InlineKeyboardMarkup, Message
+from hydrogram import filters
+from hydrogram.errors import FloodWait
+from hydrogram.types import InlineKeyboardMarkup, Message
 
 from helper_func import(
     decode,

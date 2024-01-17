@@ -31,9 +31,7 @@ while True:
     FORCE_SUB_[FSUB_TOTAL] = int(value)
     FSUB_TOTAL += 1
 
-BUTTON_ROW = int(getenv("BUTTON_ROW", 3))
-BUTTON_TITLE = getenv("BUTTON_TITLE", "Join")
-
+BUTTON_ROW = int(getenv("BUTTON_ROW", 2))
 
 START_MESSAGE = getenv(
     "START_MESSAGE",

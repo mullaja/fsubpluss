@@ -18,7 +18,6 @@ from core.func import encode
             "help",
             "ping",
             "uptime",
-            "log",
             "users",
             "batch",
             "broadcast"

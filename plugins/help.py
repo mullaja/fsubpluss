@@ -7,18 +7,13 @@ from hydrogram.types import InlineKeyboardButton
 
 class Data:
     HELP = """
-Pengguna Bot
-  /start - Mulai
-  /about - Tentang
-  /help - Bantuan
-  /ping - Latensi bot
-  /uptime - Waktu aktif
- 
-Admin Bot
-  /log - Mengambil log
-  /users - Statistik pengguna
-  /batch - Multi post dalam satu link)
-  /broadcast - Pesan siaran
+/start: Mulai bot
+/help - Bantuan dan tentang bot
+/ping - Cek latensi bot
+/uptime - Cek waktu aktif bot
+/users - Statistik pengguna bot (Admin)
+/batch - Multi post dalam satu link (Admin)
+/broadcast - Pesan siaran ke pengguna bot (Admin)
 """
 
     close = [

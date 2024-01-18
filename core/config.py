@@ -1,17 +1,9 @@
 from os import getenv
 from dotenv import load_dotenv
-from logging.handlers import RotatingFileHandler
-from logging import(
-    basicConfig, 
-    INFO, 
-    WARNING, 
-    StreamHandler, 
-    getLogger,
-    Logger
-)
+from logging import basicConfig, INFO, WARNING, getLogger, Logger
+
 
 load_dotenv("config.env")
-
 
 BOT_TOKEN = getenv("BOT_TOKEN")
 
@@ -21,6 +13,7 @@ DATABASE_NAME = getenv("DATABASE_NAME")
 
 RESTRICT = getenv("RESTRICT", True)
 
+BUTTON_ROW = int(getenv("BUTTON_ROW", 2))
 FORCE_SUB_ = {}
 FSUB_TOTAL = 1
 while True:
@@ -30,8 +23,6 @@ while True:
         break
     FORCE_SUB_[FSUB_TOTAL] = int(value)
     FSUB_TOTAL += 1
-
-BUTTON_ROW = int(getenv("BUTTON_ROW", 2))
 
 START_MESSAGE = getenv(
     "START_MESSAGE",
@@ -48,24 +39,13 @@ FORCE_MESSAGE = getenv(
     "Silakan Join Ke Channel/Group terlebih dahulu.",
 )
 
-try:
-    ADMINS = [int(x) for x in (getenv("ADMINS").split())]
-except ValueError:
-    raise Exception("Daftar Admin Anda tidak berisi User ID Telegram yang valid.")
+ADMINS = [int(x) for x in (getenv("ADMINS").split())]
     
 CUSTOM_CAPTION = getenv("CUSTOM_CAPTION", None)
 DISABLE_BUTTON = getenv("DISABLE_BUTTON", False)
 
 
-LOGS_FILE = "log.txt"
-basicConfig(
-    level=INFO,
-    format="[%(levelname)s] - %(message)s",
-    handlers=[
-        RotatingFileHandler(LOGS_FILE, maxBytes=50000000, backupCount=10),
-        StreamHandler(),
-    ],
-)
+basicConfig(level=INFO, format="[%(levelname)s] - %(message)s")
 getLogger("hydrogram").setLevel(WARNING)
 def LOGGER(name: str) -> Logger:
     return getLogger(name)
